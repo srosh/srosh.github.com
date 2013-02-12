@@ -3,6 +3,7 @@ var gravatar='http://en.gravatar.com/srosh.json?callback=setMyImage';
 (function($){
 	$(document).ready(function(){
 		$('body').append($('<script src="'+gravatar+'"/>'));
+		$('.side-left').scrollToFixed({ limit: ($('footer').offset().top - $('.side-left').height() - 200) });
 	});
 })(jQuery)
 
