@@ -19,14 +19,16 @@ body {
 }
 .page-footer {
 	margin-top: 20px;
-	margin-bottom: 15px;
+	margin-bottom: 0px;
 	height: 150px;
+	border-top: 1px solid #dc322f;
 }
 .page-header {
 	height: 341px;
 	padding-top: 0px;
-	margin-top: 15px;
+	margin-top: 0px;
 	position: relative;
+	border-bottom: 1px solid #dc322f;
 }
 .page-footer,
 .page-header {
@@ -34,8 +36,6 @@ body {
 	display: block;
 	background: #ff7818;
 	color: #fdf6e3;
-	border-top: 1px solid #dc322f;
-	border-bottom: 1px solid #dc322f;
 	box-shadow: 0px 0px 10px #ff7818;
 }
 .right-align {
