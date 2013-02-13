@@ -3,7 +3,13 @@
 body {
 	font-family: 'Lato', Helvatica;
 }
-
+.side-right p {
+	text-indent: 2em;
+}
+.side-left a,
+.side-right a {
+	color: #dc322f;
+}
 .side-right {
 	padding: 30px;
 	font-size: larger;
