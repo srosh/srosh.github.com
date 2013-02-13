@@ -31,6 +31,10 @@ body {
 	padding-top: 20px;
 	position: relative;
 }
+.copyright a{
+	position: relative;
+	padding-left: 20px;
+}
 .copyright {
 	font-family: Verdana,Tahoma;
 	position: absolute;
@@ -83,6 +87,16 @@ body {
 div.intro {
 	margin-top: 35px;
 	margin-bottom: 20px;
+}
+img.gravatar-tiny {
+	opacity: .85;
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	vertical-align: text-top;
+	position: absolute;
+	left: 2px;
+	top: 0px;
 }
 img.gravatar {
 	opacity: .95;

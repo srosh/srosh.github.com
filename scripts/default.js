@@ -12,6 +12,6 @@ var gravatar='http://en.gravatar.com/srosh.json?callback=setMyImage';
 var setMyImage = function(data) {
  if (data && data.entry) {
   	var turl = data.entry[0].thumbnailUrl;
-  	$('img.gravatar').attr('src',turl);
+  	$('img.gravatar,img.gravatar-tiny').attr('src',turl);
   }
 }
