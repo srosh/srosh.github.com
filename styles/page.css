@@ -42,8 +42,8 @@ body {
 	text-align: right;
 }
 
-.side-left.affix {
-	top: 0;
+.side-left {
+	z-index: 1000;
 }
 
 div.intro {
