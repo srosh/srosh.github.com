@@ -22,7 +22,35 @@ body {
 	margin-bottom: 0px;
 	height: 150px;
 	border-top: 1px solid #dc322f;
+	padding-top: 20px;
+	position: relative;
 }
+.copyright {
+	font-family: Verdana,Tahoma;
+	position: absolute;
+	bottom: 5px;
+	right: 20px;
+	padding: 0px;
+	color: #eee8d5;
+	font-size: smaller;
+}
+.page-header ul,
+.page-footer ul {
+	list-style: none;
+	margin-left: 30px;
+	font-weight: bold;
+}
+.page-header a:hover,
+.page-footer a:hover {
+	
+} 
+.page-header a,
+.page-footer a {
+	margin-left: 2px;
+	font-weight: normal;
+	color: #eee8d5;
+} 
+
 .page-header {
 	height: 341px;
 	padding-top: 0px;
@@ -80,6 +108,7 @@ span.full-name-title {
 a.linkedin-button,
 a.github-button ,
 a.twitter-mention-button {
+	color: #03303C;
 	font-family: 'Helvetica Neue', Arial, sans-serif;
 	font-size: 11px;
 	font-style: normal;
