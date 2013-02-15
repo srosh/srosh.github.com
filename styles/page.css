@@ -3,8 +3,19 @@
 body {
 	font-family: 'Lato', Helvatica;
 }
+.side-right h1,
+.side-right h2,
+.side-right h3,
+.side-right h4,
+.side-right h5,
+.side-right h6 {
+	text-align: left;
+}
 .side-right p {
 	text-indent: 2em;
+}
+.side-right blockquote p {
+	text-indent: 0em;
 }
 .side-left a,
 .side-right a {
