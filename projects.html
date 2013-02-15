@@ -81,16 +81,74 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 				<div class="span6 pull-right">
 					<div class="side-right">
 						<blockquote>
-							<p>These are a few of my recent pet projects:</p>
+							<p>These are a few of my recent pet projects:<a id="flatdom"></a>
+							</p>
 						</blockquote>
 						<h3>FlatDOM</h3>
-						<p>This is a Node.js module for parsing and generating different representations of HTML (or XML) into server-side Document Object Model. This server-side DOM is good for building structured web page templates ( take a look at <a href="#3390">33GO</a>) or extracting data from a compiled page.</p>
+						<p>This is a Node.js module for parsing and generating different representations of HTML (or XML) into server-side Document Object Model. This server-side DOM is good for building structured web page templates ( take a look at <a href="#3390">33GO</a> ) or extracting data from a compiled page.</p>
 						<p>Using CSS selectors to identify elements and inject data to a parsed DOM on a server-side script was an old idea of mine. It allows a cleaner syntax for templates and makes reusing snippets of code more straight-forward. Using Node.js to do this also means that the javascript code made for manipulation of the DOM can be used on both client and server.</p>
 						<p>My goal with both FlatDOM and 33GO is to make this DOM based representation and manipulation as seamless and easy as possible.</p>
 						<blockquote>
-							<p>Here's the <a href="https://github.com/srosh/FlatDOM">GitHub Repo for FlatDOM</a>
+							<p>Here's the <a href="https://github.com/srosh/FlatDOM">GitHub Repo for FlatDOM</a> <a id="3390"></a>
 							</p>
 						</blockquote>
+						<hr>
+						<h3>33GO</h3>
+						<p>33GO is an extension of <a href="#flatdom">FlatDOM</a> more focused on building HTML templates and static webpages. The basic idea is starting from a javascript object or a json file and making a DOM tree from different sources.</p>
+						<p>The motivation behind it is that different representations are more useful at separate parts of DOM building. <a href="http://daringfireball.net/projects/markdown">Markdown</a> for example is lighter on syntax and good at making huge text nodes. <a href="http://docs.emmet.io">Emmet</a> (aka zencoding) and <a href="http://www.jsonml.org">JsonML</a> on the other hand are very simple and easy ways to represent structure.</p>
+						<p>33GO makes it possible to mix and match these different technologies. For example every page on this website is auto generated from <code>.md</code> files and Emmet structures:</p>
+						<pre>
+							<code>/**/
+{
+ "mod":"emmet",
+ "val":"div.container>div.row>"
+},
+[
+ {
+  "mod":"emmet",
+  "val":"div.side-left.span4>"
+ },
+ [
+  {
+	"mod": "emmet",
+	"val": "(div.row-fluid.intro>div.span4.pull-right.right-align>img.gravatar+(span.full-name-title.first-name{Soroosh}+br+span.full-name-title{Izadian}))"
+  },
+  {
+	"mod": "emmet",
+	"val": "div.row-fluid>div.span12.pull-right.right-align"
+  },
+  [
+	{
+	  "mod": "md",
+	  "type": "file",
+	  "val": "./left-column.md"
+	}
+  ]
+ ],
+ {
+   "mod": "emmet",
+   "val": "div.span2.pull-right>"
+ },
+ {
+   "mod": "emmet",
+   "val": "div.span6.pull-right>div.side-right"
+ },
+ [
+  {
+    "mod": "md",
+    "type": "file",
+    "var": "content"
+  }
+ ]
+],
+"./footer.3390"</code>
+						</pre>
+						<p>This part of the json template file generates everything except the header on this page for example.</p>
+						<blockquote>
+							<p>Here's the <a href="https://github.com/srosh/33GO">GitHub Repo for 33GO</a> <a id="boot-color"></a>
+							</p>
+						</blockquote>
+						<hr>
 						<h3>Color variables for BootStrap.css</h3>
 						<p>The current version of Twitter's bootstrap framework doesn't have all the color codes on their <code>variables.less</code> file. This makes it hard to change the colors on different less files.</p>
 						<p>This little project of mine started as changing every possible color code in the compiled <code>bootstrap.css</code> file and moved on to extracting color codes from all the original <code>.less</code> files.</p>

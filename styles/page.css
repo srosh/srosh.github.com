@@ -14,6 +14,9 @@ body {
 .side-right p {
 	text-indent: 2em;
 }
+.side-right pre{
+	text-align: left;
+}
 .side-right blockquote p {
 	text-indent: 0em;
 }
