@@ -97,10 +97,7 @@ var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga
 						<h3>33GO</h3>
 						<p>33GO is an extension of <a href="#flatdom">FlatDOM</a> more focused on building HTML templates and static webpages. The basic idea is starting from a javascript object or a json file and making a DOM tree from different sources.</p>
 						<p>The motivation behind it is that different representations are more useful at separate parts of DOM building. <a href="http://daringfireball.net/projects/markdown">Markdown</a> for example is lighter on syntax and good at making huge text nodes. <a href="http://docs.emmet.io">Emmet</a> (aka zencoding) and <a href="http://www.jsonml.org">JsonML</a> on the other hand are very simple and easy ways to represent structure.</p>
-						<p>33GO makes it possible to mix and match these different technologies. For example every page on this website is auto generated from <code>.md</code> files and Emmet structures:</p>
-						<pre>
-							<code>/**/
-{
+						<p>33GO makes it possible to mix and match these different technologies. For example every page on this website is auto generated from <code>.md</code> files and Emmet structures:</p><pre><code>{
  "mod":"emmet",
  "val":"div.container>div.row>"
 },
