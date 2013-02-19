@@ -1,10 +1,7 @@
 var handle,handleHasMoved,handleWasSelected;
-// Create a circle shaped path at the center of the view,
-// with a radius of 100:
 var path = new Path.Circle(view.center, 100);
 path.strokeColor = 'black';
 
-// Fully select the path, so we can see its handles:
 path.selected = true;
 
 function onMouseDown(event) {
@@ -25,11 +22,9 @@ function onMouseDown(event) {
 
 		}
 	}
-	//console.log(hitResult);
 }
 
 function onMouseDrag(event) {
-	// If we hit a handle before, move it:
 	if (handle) {
 		handle.x += event.delta.x;
 		handle.y += event.delta.y;
