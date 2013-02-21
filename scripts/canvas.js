@@ -1,91 +1,110 @@
-var handle,handlr,handleHasMoved,handleWasSelected;
-//var path = new Path.Circle(view.center, 100);
-//path.strokeColor = 'black';
-//path.selected = true;
-var path,paths=[];
-console.log(project.activeLayer);
+var MODE_INIT = 0
+	,MODE_DRAW = 1
+	,MODE_DRAG = 2
+	,MODE_MODIFY = 3
+	,FOLLOW_TOLERANCE = 15
+var mode = MODE_DRAW;
+
+
+var modify_segment,modify_handle=0,draw_path,selected_path,modify_hit_test,align_handles=true,
+	layer = project.activeLayer
 
 function onMouseDown(event) {
-	handle = null;
-	//hittest for selected path
-	//if nothing gets back hittest on layer
-	//if nothing's hit then start a path
-	//or modify to add segments on click
-	var hitResult =  project.activeLayer.hitTest(event.point, { stroke: true, handles: true, segments: true,tolerance: 25 });
-	// var hitResult = !path ? false : path.hitTest(event.point, { handles: true, segments: true,tolerance: 10 });
-	if (hitResult) {
-		if (!hitResult.item.selected) {
-			project.activeLayer.selected = false;
-			hitResult.item.selected = true;
-		}
-		if (hitResult.type == 'handle-in') {
-			handle = hitResult.segment.handleIn;
-			handlr = hitResult.segment.handleOut;
-		} else if (hitResult.type == 'handle-out') {
-			handle = hitResult.segment.handleOut;
-			handlr = hitResult.segment.handleIn;
-		} else if (hitResult.type == 'segment') {
-			handle = hitResult.segment.point;
-			if(!handle.selected) {
-				handle.selected=true;
-			} else handleWasSelected = true;
-		} else if (hitResult.type == 'stroke') {
-			path = null;
-			//console.log(hitResult);
-			handle = hitResult.item;
-		}
-	} else {
-		// if (path) {
-	 //        path.selected = false;
-	 //    }
-	    project.activeLayer.selected = false;
-	    // Create a new path and set its stroke color to black:
-	    path = new Path();
-	    path.add(event.point);
-	    path.strokeColor = 'black';
-
-	    // Select the path, so we can see its segment points:
-	    path.selected = true;
+	switch (mode) {
+		case MODE_INIT :
+		break;
+		case MODE_DRAW :
+			//if (draw_path) draw_path.selected = false;
+			layer.selected = false;
+			draw_path = new Path();
+			draw_path.add(event.point);
+			draw_path.strokeColor = 'black';
+			draw_path.selected = true;
+			selected_path = draw_path;
+		break;
+		case MODE_MODIFY :
+			if (selected_path) {
+				modify_hit_test = selected_path.hitTest(event.point, { stroke: true, handles: true, segments: true, tolerance: 15 });
+				if (modify_hit_test) {
+					switch (modify_hit_test.type) {
+						case 'handle-in':
+							modify_segment = modify_hit_test.segment;
+							modify_handle = -1;
+						break;
+						case 'handle-out':
+							modify_segment = modify_hit_test.segment;
+							modify_handle = 1;
+						break;
+						case 'segment':
+							modify_segment = modify_hit_test.segment;
+							modify_handle = 0;
+						break;
+						case 'stroke':
+							if(modify_segment){
+								modify_segment.selected = false;
+								modify_segment = null;
+							}
+							modify_handle = 0;
+						break;
+					}
+				} else {
+					selected_path.selected = false;
+					selected_path = null;
+				}
+			}
+		break;
 	}
 }
 
 function onMouseDrag(event) {
-	if (handle) {
-		if (handle instanceof Path) {
-			handle.translate(event.delta);
-		} else {
-			handle.x += event.delta.x;
-			//handlr.x -= event.delta.x;
-			handle.y += event.delta.y;
-			var a = handle.angle - 180;
-			a = (a < 0 ? a+360 : a)
-			handlr.angle = a;
-			console.log(a);
-			handleHasMoved = true;
-		}
-	} else {
-		path.add(event.point);
+	switch (mode) {
+		case MODE_INIT :
+		break;
+		case MODE_DRAW :
+			draw_path.add(event.point);
+		break;
+		case MODE_MODIFY :
+			if (selected_path && modify_segment) {
+				var angleDiff,angleRes;
+				switch (modify_handle) {
+					case -1:
+						if (align_handles) modify_segment.handleOut.angle += ((modify_segment.handleIn+event.delta).angle - modify_segment.handleOut.angle)%360   - 180;
+						modify_segment.handleIn += event.delta;
+					break;
+					case 0:
+						modify_segment.point += event.delta;
+					break;
+					case 1:
+						if (align_handles) modify_segment.handleIn.angle += ((modify_segment.handleOut+event.delta).angle - modify_segment.handleIn.angle)%360   - 180;
+						modify_segment.handleOut += event.delta;
+					break;
+				}
+				console.log(angleDiff,angleRes);
+			}
+		break;
 	}
 }
 
 function onMouseUp(event) {
-	if (handle) {
-		if (handleWasSelected && handleHasMoved) {
-			handleWasSelected=false;
-			handleHasMoved=false;
-		} else if (handleWasSelected) {
-			handleWasSelected=false;
-			handle.selected=false;
-		}
-		handleHasMoved = false;
-	} else if (path) {
-		path.simplify(10);
-		//path.selected = true;
+	switch (mode) {
+		case MODE_INIT :
+		break;
+		case MODE_DRAW :
+			draw_path.simplify(25);
+			draw_path.selected = false;
+			draw_path.selected = true;
+			mode = MODE_MODIFY;
+		break;
+		case MODE_MODIFY :
+			if (!selected_path) {
+				modify_hit_test = layer.hitTest(event.point,{ stroke: true, tolerance: 15 });
+				if (modify_hit_test) {
+					selected_path = modify_hit_test.item;
+					selected_path.selected = true;
+				} else {
+					mode = MODE_DRAW;
+				}
+			}
+		break;
 	}
-}
-
-function endPath(p){
-	paths.push(p);
-	p.simplify(25);
-
 }
