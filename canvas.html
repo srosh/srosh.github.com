@@ -2,13 +2,28 @@
 <html>
 	<head>
 		<title>PprJs</title>
+		<script src="scripts/jquery.js">
+		</script>
+		<script src="scripts/bootstrap.js">
+		</script>
 		<script src="scripts/paper.js">
 		</script>
 		<script type="text/paperscript" src="scripts/canvas.js" data-paper-canvas="target">
 		</script>
+		<link rel="stylesheet" type="text/css" href="styles/bootstrap.css">
 	</head>
 </html>
 <body style="margin:0;padding:0;">
-	<canvas id="target" resize="true">
+	<canvas id="target" resize="true" style="background-color: #ffffff;">
 	</canvas>
+	<div class="btn-group" style="position:fixed;left:0;top:0;padding:10px;">
+		<a class="new btn btn-warning btn-mini active" title="New Curve">
+			<i class="icon-pencil icon-white">
+			</i>
+		</a>
+		<a class="edit btn btn-warning btn-mini" title="Edit Curves">
+			<i class="icon-edit icon-white">
+			</i>
+		</a>
+	</div>
 </body>

@@ -72,14 +72,14 @@ function onMouseDrag(event) {
 				else align_handles = modify_segment.aligned;
 				switch (modify_handle) {
 					case -1:
-						if (align_handles) angler(modify_segment.handleOut , fixAngle(angled(modify_segment.handleIn+event.delta)+180));
+						if (align_handles) angler(modify_segment.handleOut , fixAngle(angled(modify_segment.handleIn+event.delta)));
 						modify_segment.handleIn += event.delta;
 					break;
 					case 0:
 						modify_segment.point += event.delta;
 					break;
 					case 1:
-						if (align_handles) angler(modify_segment.handleIn , fixAngle(angled(modify_segment.handleOut+event.delta)+180));
+						if (align_handles) angler(modify_segment.handleIn , fixAngle(angled(modify_segment.handleOut+event.delta)));
 						modify_segment.handleOut += event.delta;
 					break;
 				}
@@ -108,6 +108,8 @@ function onMouseUp(event) {
 				draw_path.selected = false;
 				draw_path.selected = true;
 				mode = MODE_MODIFY;
+				$('a.new').removeClass('active');
+				$('a.edit').addClass('active');
 			}
 		break;
 		case MODE_MODIFY :
@@ -118,6 +120,8 @@ function onMouseUp(event) {
 					selected_path.selected = true;
 				} else {
 					mode = MODE_DRAW;
+					$('a.new').addClass('active');
+					$('a.edit').removeClass('active');
 				}
 			}
 			align_handles = false;
@@ -127,25 +131,40 @@ function onMouseUp(event) {
 
 function fixAngle(angle){
 	var ret = angle %360 ;
-	return (ret<0 ? ret+360 : ret);
+	return angle; //(ret<0 ? ret+360 : ret);
 }
 function angled(point){
 	// console.log(point.angle,fixAngle(point.angle + (point.quadrant > 2 ? 180 : 0)))
-	return fixAngle(point.angle + (point.quadrant > 2 ? 180 : 0));
+	return fixAngle(point.angle + (point.quadrant > 2 ? 180 : -180));
 }
 function angler(point,angle){
 	if (angle>180) {
-		point.quadrant = 2 + (angle>270 ? 2 : 1);
+		// point.quadrant = 2 + (angle>270 ? 2 : 1);
 		point.angle = angle;
-		console.log(point.quadrant,point.angle,angle)
+		//console.log(point.quadrant,point.angle,angle)
 	} else {
-		point.quadrant = (angle>90 ? 2 : 1);
+		// point.quadrant = (angle>90 ? 2 : 1);
 		point.angle = angle;
 	}
 }
 
 function handlesAligned(segment) {
 	var outa = angled(segment.handleOut), ina = angled(segment.handleIn), diff = ina>outa ? ina - outa : outa - ina;
-	//console.log(diff,outa,ina,fixAngle(diff -180));
-	return fixAngle(diff) <=ALIGN_TOLERANCE;
+	console.log(ina,'-',outa,diff,Math.abs(fixAngle(diff)-180));
+	return Math.abs(fixAngle(diff)-180) <= ALIGN_TOLERANCE;
 }
+
+$(document).ready(function(){
+	$('a.new').on('click',function(){
+		$('a.new').removeClass('active');
+		$('a.edit').removeClass('active');
+		$('a.new').addClass('active');
+		mode = MODE_DRAW;
+	});
+	$('a.edit').on('click',function(){
+		$('a.new').removeClass('active');
+		$('a.edit').removeClass('active');
+		$('a.edit').addClass('active');
+		mode = MODE_MODIFY;
+	});
+});
